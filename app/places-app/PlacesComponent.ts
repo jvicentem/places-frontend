@@ -10,7 +10,7 @@ import {PlacesService} from './PlacesService'
                 <button (click)="getPlaces()">Show places</button>
                 <div *ngIf="places">
                     <li *ngFor='let place of places'>
-                        {{place.name}}
+                        {{place.name}} - <a href="{{place.url}}">{{place.url}}</a>
                     </li>                
                 </div>
             </ul>
@@ -26,12 +26,11 @@ export class PlacesComponent {
     getPlaces() {
         this.placesService.getPlaces().subscribe(
             (data) => {
-                this.places = data.json()
+                this.places = data.json().places
             },
             (error) => {
                 console.log(error)
             }
         )
-        console.log('PLACES')
     }
 }
