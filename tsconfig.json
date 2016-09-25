@@ -1,0 +1,43 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "isolatedModules": false,
+        "jsx": "react",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "declaration": false,
+        "noImplicitAny": false,
+        "removeComments": true,
+        "noLib": false,
+        "preserveConstEnums": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "outDir": "build",
+        "sourceMap": true,
+        "inlineSources": true
+    },
+    "filesGlob": [
+        "./app/**/*.ts",
+        "./test/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "typings/main",
+        "typings/main.d.ts"
+    ],
+    "compileOnSave": true,
+    "buildOnSave": false,
+    "files": [
+        "./app/bootstrap.ts",
+        "./app/helloworld/hello-world.component.ts",
+        "./app/helloworld/hello-world.service.ts",
+        "./app/main.ts",
+        "./test/helloworld/hello-world.component.spec.ts",
+        "./test/helloworld/hello-world.service.spec.ts",
+        "./test/init.ts"
+    ],
+    "atom": {
+        "rewriteTsconfig": true
+    }
+}
