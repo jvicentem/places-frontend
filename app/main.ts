@@ -1,16 +1,9 @@
-import {Component} from '@angular/core'
-import {PlacesComponent} from './places-app/PlacesComponent'
+/**
+ * Created by jose on 25/09/16.
+ */
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { AppModule } from './app.module';
 
-@Component({
-  selector: 'ng2-app',
-  template: `
-        <places></places>`,
-  directives: [PlacesComponent]
-})
+const platform = platformBrowserDynamic();
 
-export class AppComponent{
-
-  constructor(){
-  }
-
-}
+platform.bootstrapModule(AppModule);

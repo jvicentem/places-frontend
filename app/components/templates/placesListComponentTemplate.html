@@ -1,0 +1,10 @@
+<div>
+    <ul>
+        <button (click)="getPlaces()">Show places</button>
+        <div *ngIf="places">
+            <li *ngFor='let place of places'>
+                {{place.name}} - <a href="{{place.url}}">{{place.url}}</a>
+            </li>
+        </div>
+    </ul>
+</div>
