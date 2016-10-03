@@ -123,10 +123,27 @@ export class PlacesMapComponent {
 
     private getMarkers(placesList: place[]) {
         for (let place of placesList) {
+            let icon: string = ''
+
+            const iconUrlFirstPart = './assets/'
+            const iconUrlSecondPart = '-marker.png'
+
+            switch (place.review) {
+                case "good":
+                    icon = 'green'
+                    break;
+                case "normal":
+                    icon = 'orange'
+                    break;
+                default:
+                    icon = 'blue'
+            }
+
             let placeMark = {
                 lat: place.latitude,
                 lng: place.longitude,
-                draggable: false
+                draggable: false,
+                iconUrl: iconUrlFirstPart + icon + iconUrlSecondPart
             }
 
             this.markers.push(placeMark)
@@ -151,6 +168,7 @@ interface marker {
     lng: number
     label?: string
     draggable?: boolean
+    iconUrl?: string
 }
 
 export interface place {
