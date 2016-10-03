@@ -7,54 +7,73 @@ import { TagsService } from '../services/TagsService'
 
 @Component({
     selector: 'places-map',
+    styles: [`.sebm-google-map-container {
+                height: 700px;
+             }`
+    ],
     templateUrl: './app/components/templates/placesMapComponentTemplate.html',
     providers: [PlacesService, TagsService]
 })
 export class PlacesMapComponent {
-    zoom: number = 5
+    zoom: number = 15
     
-    latitude: number = 40.3208445
-    longitude: number = -3.852209700000003
+    lat: number = 40.3208445
+    lng: number = -3.852209700000003
 
-    originalPlaces: place[]
+    originalPlaces: place[] = []
 
     markers: marker[] = []
 
-    clickedPlace: place
+    selectedPlace: place = {
+        id: '',
+        latitude: 0.000,
+        longitude: 0.000,
+        name: '',
+        lactose: false,
+        review: 'bad',
+        url: '',
+        tags: []
+    }
+
+    tags: string[]
 
     constructor(@Inject(PlacesService) private placesService:PlacesService,
                 @Inject(TagsService) private tagsService:TagsService)
     {
         this.getOriginalPlaces()
         this.getMarkers(this.originalPlaces)
+        this.getTags()
     }
-    
-    private clickedMarker(label: string, index: number) {
+
+    private clickedPlace(label: string, index: number) {
         let auxMarker
 
         this.placesService.getPlaceById( this.originalPlaces[index].id ).subscribe(
             (data) => {
-                auxMarker = data.json();
+                auxMarker = data.json()
+
+                let tagsIds = auxMarker.tags.slice()
+
+                this.selectedPlace = auxMarker
+
+                this.selectedPlace.tags = []
+
+                for (let tagId of tagsIds) {
+                    this.tagsService.getTagById(tagId).subscribe(
+                        (data) => {
+                            this.selectedPlace.tags.push(data.json().name)
+                        },
+                        (error) => {
+                            console.log(error)
+                        }
+                    )
+                }
+
             },
             (error) => {
-                console.log(error);
+                console.log(error)
             }
         )
-
-        for (let tagId of auxMarker.tags) {
-            let tagName = ''
-
-            this.tagsService.getTagById(tagId).subscribe(
-                (data) => {
-                    tagName = data.json().name;
-                },
-                (error) => {
-                    console.log(error);
-                }
-            )
-
-            this.clickedPlace.tags.push(tagName)
-        }
     }
 
     private mapClicked($event: MouseEvent) {
@@ -64,11 +83,42 @@ export class PlacesMapComponent {
         })*/
     }
 
+    private getOriginalPlaces() {
+        let places = []
+
+        this.placesService.getPlaces().subscribe(
+            (data) => {
+                places = data.json().places;
+
+                for (let place of places) {
+                    let placeAux = {
+                        id: place._id,
+                        latitude: Number(place.coordinates.latitude),
+                        longitude: Number(place.coordinates.longitude),
+                        name: place.name,
+                        lactose: place.lactose,
+                        review: place.review,
+                        url: place.url,
+                        tags: place.tags
+                    }
+
+                    this.originalPlaces.push(placeAux)
+                }
+                this.originalPlaces
+
+                this.getMarkers(this.originalPlaces)
+            },
+            (error) => {
+                console.log(error);
+            }
+        )
+    }
+
     private getMarkers(placesList: place[]) {
         for (let place of placesList) {
             let placeMark = {
-                latitude: place.latitude,
-                longitude: place.longitude,
+                lat: place.latitude,
+                lng: place.longitude,
                 draggable: false
             }
 
@@ -76,44 +126,31 @@ export class PlacesMapComponent {
         }
     }
 
-    private getOriginalPlaces() {
-        let places = []
-
-        this.placesService.getPlaces().subscribe(
+    private getTags() {
+         this.tagsService.getTags().subscribe(
             (data) => {
-                places = data.json().places;
+                this.tags = data.json().tags;
             },
             (error) => {
                 console.log(error);
             }
-        )
+         )
+    }
 
-        for (let place of places) {
-            let placeAux = {
-                id: place.id,
-                latitude: Number(place.coordinates.latitude),
-                longitude: Number(place.coordinates.longitude),
-                name: place.name,
-                lactose: place.lactose,
-                review: place.review,
-                url: place.review,
-                tags: place.tags
-            }
+    private getTagById(tagId) {
 
-            this.originalPlaces.push(placeAux)
-        }
     }
 }
 
 interface marker {
-    latitude: number
-    longitude: number
+    lat: number
+    lng: number
     label?: string
     draggable?: boolean
 }
 
 export interface place {
-    id: number
+    id: string
     latitude: number
     longitude: number
     name: string

@@ -3,12 +3,12 @@
         [longitude]="lng"
         [zoom]="zoom"
         [disableDefaultUI]="false"
-        [zoomControl]="false"
+        [zoomControl]="true"
         (mapClick)="mapClicked($event)">
 
     <sebm-google-map-marker
             *ngFor="let m of markers; let i = index"
-            (markerClick)="clickedMarker(m.label, i)"
+            (markerClick)="clickedPlace(m.label, i)"
             [latitude]="m.lat"
             [longitude]="m.lng"
             [label]="m.label"
@@ -16,9 +16,11 @@
             (dragEnd)="markerDragEnd(m, $event)">
 
         <sebm-google-map-info-window>
-            <strong>{{clickedMarker.name}}</strong>
-            <a [(url)]="{{clickedMarker.url}}">Descripción</a>
-            <p *ngFor="let tag of tags">{{tag}}</p>
+            <h2>{{selectedPlace.name}}</h2>
+            <br>
+            <a target="_blank" href="{{selectedPlace.url}}">Más información</a>
+            <h3>Tags:</h3>
+            <p *ngFor="let tag of selectedPlace.tags">{{tag}}</p>
         </sebm-google-map-info-window>
 
     </sebm-google-map-marker>

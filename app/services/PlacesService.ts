@@ -16,7 +16,7 @@ export class PlacesService {
         return this.http.get('http://localhost:3002/places/');
     }
 
-    getPlaceById(id: number) {
+    getPlaceById(id: string) {
         return this.http.get('http://localhost:3002/places/' + id);
     }
 }

@@ -41,7 +41,7 @@
                 defaultExtension: 'js'
             },
             'node_modules/angular2-google-maps/core': {
-                main: './index.js',
+                main: './core.umd.js',
                 defaultExtension: 'js'
             }
         }
