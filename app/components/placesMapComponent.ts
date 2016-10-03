@@ -15,7 +15,7 @@ import { TagsService } from '../services/TagsService'
     providers: [PlacesService, TagsService]
 })
 export class PlacesMapComponent {
-    zoom: number = 15
+    zoom: number = 14
     
     lat: number = 40.3208445
     lng: number = -3.852209700000003
@@ -43,6 +43,13 @@ export class PlacesMapComponent {
         this.getOriginalPlaces()
         this.getMarkers(this.originalPlaces)
         this.getTags()
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                this.lat = position.coords.latitude
+                this.lng = position.coords.longitude
+            }
+        )
     }
 
     private clickedPlace(label: string, index: number) {
@@ -137,9 +144,6 @@ export class PlacesMapComponent {
          )
     }
 
-    private getTagById(tagId) {
-
-    }
 }
 
 interface marker {
