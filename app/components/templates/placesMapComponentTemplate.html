@@ -1,0 +1,36 @@
+<sebm-google-map
+        [latitude]="lat"
+        [longitude]="lng"
+        [zoom]="zoom"
+        [disableDefaultUI]="false"
+        [zoomControl]="true"
+        (mapClick)="mapClicked($event)">
+
+    <sebm-google-map-marker
+            *ngFor="let m of markers; let i = index"
+            (markerClick)="clickedPlace(m.label, i)"
+            [latitude]="m.lat"
+            [longitude]="m.lng"
+            [label]="m.label"
+            [markerDraggable]="m.draggable"
+            (dragEnd)="markerDragEnd(m, $event)">
+
+        <sebm-google-map-info-window>
+            <h2>{{selectedPlace.name}}</h2>
+            <br>
+            <a target="_blank" href="{{selectedPlace.url}}">Más información</a>
+            <h3>Tags:</h3>
+            <p *ngFor="let tag of selectedPlace.tags">{{tag}}</p>
+        </sebm-google-map-info-window>
+
+    </sebm-google-map-marker>
+
+    <!--
+    <sebm-google-map-circle [latitude]="lat + 0.3" [longitude]="lng"
+                            [radius]="5000"
+                            [fillColor]="'red'"
+                            [circleDraggable]="true"
+                            [editable]="true">
+    </sebm-google-map-circle> -->
+
+</sebm-google-map>
