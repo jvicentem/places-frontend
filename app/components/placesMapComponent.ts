@@ -143,8 +143,12 @@ export class PlacesMapComponent {
                 lat: place.latitude,
                 lng: place.longitude,
                 draggable: false,
-                iconUrl: iconUrlFirstPart + icon + iconUrlSecondPart
+                iconUrl: iconUrlFirstPart + icon + iconUrlSecondPart,
+                label: ''
             }
+
+            if (place.lactose)
+                placeMark.label = 'L'
 
             this.markers.push(placeMark)
         }
