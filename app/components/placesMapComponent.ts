@@ -52,7 +52,7 @@ export class PlacesMapComponent {
         )
     }
 
-    private clickedPlace(label: string, index: number) {
+    private clickedPlace(label: string, index: number): void {
         let auxMarker
 
         this.placesService.getPlaceById( this.originalPlaces[index].id ).subscribe(
@@ -83,14 +83,7 @@ export class PlacesMapComponent {
         )
     }
 
-    private mapClicked($event: MouseEvent) {
-        /*this.markers.push({
-            latitude: $event.coords.lat,
-            longitude: $event.coords.lng
-        })*/
-    }
-
-    private getOriginalPlaces() {
+    private getOriginalPlaces(): void {
         let places = []
 
         this.placesService.getPlaces().subscribe(
@@ -121,7 +114,7 @@ export class PlacesMapComponent {
         )
     }
 
-    private getMarkers(placesList: place[]) {
+    private getMarkers(placesList: place[]): void {
         for (let place of placesList) {
             let icon: string = ''
 
@@ -154,7 +147,7 @@ export class PlacesMapComponent {
         }
     }
 
-    private getTags() {
+    private getTags(): void {
          this.tagsService.getTags().subscribe(
             (data) => {
                 this.tags = data.json().tags;
