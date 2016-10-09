@@ -24,17 +24,6 @@ export class PlacesMapComponent {
 
     markers: marker[] = []
 
-    selectedPlace: place = {
-        id: '',
-        latitude: 0.000,
-        longitude: 0.000,
-        name: '',
-        lactose: false,
-        review: 'bad',
-        url: '',
-        tags: []
-    }
-
     tags: string[]
 
     constructor(@Inject(PlacesService) private placesService:PlacesService,
@@ -48,39 +37,26 @@ export class PlacesMapComponent {
             (position) => {
                 this.lat = position.coords.latitude
                 this.lng = position.coords.longitude
-            }
-        )
-    }
-
-    private clickedPlace(label: string, index: number): void {
-        let auxMarker
-
-        this.placesService.getPlaceById( this.originalPlaces[index].id ).subscribe(
-            (data) => {
-                auxMarker = data.json()
-
-                let tagsIds = auxMarker.tags.slice()
-
-                this.selectedPlace = auxMarker
-
-                this.selectedPlace.tags = []
-
-                for (let tagId of tagsIds) {
-                    this.tagsService.getTagById(tagId).subscribe(
-                        (data) => {
-                            this.selectedPlace.tags.push(data.json().name)
-                        },
-                        (error) => {
-                            console.log(error)
-                        }
-                    )
-                }
-
             },
             (error) => {
                 console.log(error)
             }
         )
+    }
+
+    private clickedPlace(index: number): void {
+        if (this.originalPlaces[index].tagsNames.length == 0) {
+            for (let tagId of this.originalPlaces[index].tags) {
+                this.tagsService.getTagById(tagId).subscribe(
+                    (data) => {
+                        this.originalPlaces[index].tagsNames.push(data.json().name)
+                    },
+                    (error) => {
+                        console.log(error)
+                    }
+                )
+            }
+        }
     }
 
     private getOriginalPlaces(): void {
@@ -99,7 +75,8 @@ export class PlacesMapComponent {
                         lactose: place.lactose,
                         review: place.review,
                         url: place.url,
-                        tags: place.tags
+                        tags: place.tags,
+                        tagsNames: []
                     }
 
                     this.originalPlaces.push(placeAux)
@@ -177,4 +154,5 @@ export interface place {
     review: string
     url: string
     tags: string[]
+    tagsNames?: string[]
 }

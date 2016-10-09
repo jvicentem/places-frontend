@@ -12,7 +12,7 @@ export class TagsService {
         return this.http.get('http://localhost:3002/tags/')
     }
 
-    getTagById(id: number):Observable<Response> {
+    getTagById(id: string):Observable<Response> {
         return this.http.get('http://localhost:3002/tags/' + id)
     }
 }
