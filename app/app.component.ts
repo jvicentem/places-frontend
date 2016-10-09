@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
     template: `
         <places-map></places-map>
         <places-list></places-list>
+        <places-help></places-help>
     `
 })
 export class AppComponent { }
