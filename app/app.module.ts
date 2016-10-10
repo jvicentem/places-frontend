@@ -8,7 +8,7 @@ import { PlacesListComponent, PlacesMapComponent, PlacesHelpComponent } from './
 import { AppComponent } from './app.component'
 import { AgmCoreModule } from 'angular2-google-maps/core'
 
-//enableProdMode()
+enableProdMode()
 
 @NgModule({
     imports: [

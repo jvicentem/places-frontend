@@ -40,7 +40,7 @@ export class PlacesListComponent {
         )
     }
 
-    getTags(): Map {
+    getTags(): Map<{}, {}> {
         let tags = new Map()
 
         this.tagsService.getTags().subscribe(
