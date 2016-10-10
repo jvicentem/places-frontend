@@ -4,6 +4,7 @@
 import { Component, Inject } from '@angular/core'
 import { PlacesService } from '../services/PlacesService'
 import { TagsService } from '../services/TagsService'
+import { CurrentLocationService } from '../services/CurrentLocationService'
 
 @Component({
     selector: 'places-map',
@@ -12,7 +13,7 @@ import { TagsService } from '../services/TagsService'
              }`
     ],
     templateUrl: './app/components/templates/placesMapComponentTemplate.html',
-    providers: [PlacesService, TagsService]
+    providers: [PlacesService, TagsService, CurrentLocationService]
 })
 export class PlacesMapComponent {
     zoom: number = 14
@@ -27,20 +28,23 @@ export class PlacesMapComponent {
     tags: string[]
 
     constructor(@Inject(PlacesService) private placesService:PlacesService,
-                @Inject(TagsService) private tagsService:TagsService)
+                @Inject(TagsService) private tagsService:TagsService,
+                @Inject(CurrentLocationService) private currentLocationService:CurrentLocationService)
     {
         this.getOriginalPlaces()
         this.getMarkers(this.originalPlaces)
         this.getTags()
 
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                this.lat = position.coords.latitude
-                this.lng = position.coords.longitude
+        this.currentLocationService.getCurrentLocation().subscribe((
+            (data) => {
+                let position = data.json().location
+                this.lat = position.lat
+                this.lng = position.lng
             },
             (error) => {
                 console.log(error)
             }
+        )
         )
     }
 
