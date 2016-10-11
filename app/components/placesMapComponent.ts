@@ -9,7 +9,8 @@ import { CurrentLocationService } from '../services/CurrentLocationService'
 @Component({
     selector: 'places-map',
     styles: [`.sebm-google-map-container {
-                height: 700px;
+                height: 80%;
+                width: 95%;         
              }`
     ],
     templateUrl: './app/components/templates/placesMapComponentTemplate.html',
