@@ -85,7 +85,7 @@ export class PlacesMapComponent {
                         url: place.url,
                         tags: place.tags,
                         tagsNames: [],
-                        googleMapsUrl: this.generateGoogleMapsLink(place.name, latitude, longitude)
+                        googleMapsUrl: this.generateGoogleMapsLink(latitude, longitude)
                     }
 
                     this.originalPlaces.push(placeAux)
@@ -144,8 +144,8 @@ export class PlacesMapComponent {
          )
     }
 
-    private generateGoogleMapsLink(name: string, lat: number, long: number): string {
-        return 'http://maps.google.com/maps?q=' + name.replace(/ /g, '+') + '&loc:' + lat + '+' + long + '&z=15'
+    private generateGoogleMapsLink(lat: number, long: number): string {
+        return 'http://www.google.com/maps/place/'+ lat + ',' + long
     }
 
 }
