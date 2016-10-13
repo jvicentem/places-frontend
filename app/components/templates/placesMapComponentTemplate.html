@@ -20,6 +20,8 @@
             <h2>{{originalPlaces[i].name}}</h2>
             <br>
             <a target="_blank" href="{{originalPlaces[i].url}}">Más información</a>
+            <br>
+            <a target="_blank" href="{{originalPlaces[i].googleMapsUrl}}">Ver en Google maps</a>
             <h3>Tags:</h3>
             <p *ngFor="let tag of originalPlaces[i].tagsNames">{{tag}}</p>
         </sebm-google-map-info-window>
