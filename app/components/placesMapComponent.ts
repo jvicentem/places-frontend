@@ -72,16 +72,20 @@ export class PlacesMapComponent {
                 places = data.json().places;
 
                 for (let place of places) {
+                    let latitude: number = Number(place.coordinates.latitude)
+                    let longitude: number = Number(place.coordinates.longitude)
+
                     let placeAux = {
                         id: place._id,
-                        latitude: Number(place.coordinates.latitude),
-                        longitude: Number(place.coordinates.longitude),
+                        latitude: latitude,
+                        longitude: longitude,
                         name: place.name,
                         lactose: place.lactose,
                         review: place.review,
                         url: place.url,
                         tags: place.tags,
-                        tagsNames: []
+                        tagsNames: [],
+                        googleMapsUrl: this.generateGoogleMapsLink(latitude, longitude)
                     }
 
                     this.originalPlaces.push(placeAux)
@@ -140,6 +144,10 @@ export class PlacesMapComponent {
          )
     }
 
+    private generateGoogleMapsLink(lat: number, long: number): string {
+        return 'http://www.google.com/maps/place/'+ lat + ',' + long
+    }
+
 }
 
 interface marker {
@@ -159,5 +167,6 @@ export interface place {
     review: string
     url: string
     tags: string[]
-    tagsNames?: string[]
+    tagsNames?: string[],
+    googleMapsUrl?: string
 }
