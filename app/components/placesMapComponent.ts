@@ -19,12 +19,12 @@ import { CurrentLocationService } from '../services/CurrentLocationService'
 export class PlacesMapComponent {
     zoom: number = 14
     
-    lat: number = 40.3208445
-    lng: number = -3.852209700000003
+    lat: number
+    lng: number
 
-    originalPlaces: place[] = []
+    originalPlaces: place[]
 
-    markers: marker[] = []
+    markers: marker[]
 
     tags: string[]
 
@@ -32,6 +32,12 @@ export class PlacesMapComponent {
                 @Inject(TagsService) private tagsService:TagsService,
                 @Inject(CurrentLocationService) private currentLocationService:CurrentLocationService)
     {
+        this.originalPlaces = []
+        this.markers = []
+
+        this.lat = 40.3208445
+        this.lng = -3.852209700000003
+
         this.getOriginalPlaces()
         this.getMarkers(this.originalPlaces)
         this.getTags()
@@ -43,7 +49,11 @@ export class PlacesMapComponent {
                 this.lng = position.lng
             },
             (error) => {
-                console.log(error)
+                /*For some reason I ignore this request is done succesfully but
+                * goes through error block instead of data block*/
+                let position = error.json().location
+                this.lat = position.lat
+                this.lng = position.lng
             }
         )
         )
