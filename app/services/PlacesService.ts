@@ -13,10 +13,10 @@ export class PlacesService {
     ) {}
 
     getPlaces():Observable<Response> {
-        return this.http.get('http://localhost:3002/places/');
+        return this.http.get('http://places.api.jvm16.xyz:3002/places/');
     }
 
     getPlaceById(id: string) {
-        return this.http.get('http://localhost:3002/places/' + id);
+        return this.http.get('http://places.api.jvm16.xyz:3002/places/' + id);
     }
 }
