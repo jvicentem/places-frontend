@@ -4,13 +4,12 @@
 import { Component, Inject } from '@angular/core';
 import { PlacesService } from '../services/PlacesService';
 import { TagsService } from '../services/TagsService';
-import { CurrentLocationService } from '../services/CurrentLocationService';
 
 @Component(
     {
         selector: 'places-list',
         templateUrl: './app/components/templates/placesListComponentTemplate.html',
-        providers: [PlacesService, TagsService, CurrentLocationService]
+        providers: [PlacesService, TagsService]
     }
 )
 export class PlacesListComponent {
@@ -20,8 +19,7 @@ export class PlacesListComponent {
     private showList: boolean
 
     constructor(@Inject(PlacesService) private placesService:PlacesService,
-                @Inject(TagsService) private tagsService:TagsService
-                ,@Inject(CurrentLocationService) private currentLocationService:CurrentLocationService) {
+                @Inject(TagsService) private tagsService:TagsService) {
         this.fetchPlaces()
         this.tags = this.getTags()
         this.showList = false
@@ -36,31 +34,25 @@ export class PlacesListComponent {
             (data) => {
                 this.places = data.json().places;
 
-                this.currentLocationService.getCurrentLocation().subscribe(
-                    (data) => {
-                        let position = data.json().location
-                        let lat = position.lat
-                        let lng = position.lng
+                navigator.geolocation.getCurrentPosition((position) => {
+                    let lat = position.coords.latitude
+                    let lng = position.coords.longitude
 
-                        this.places.sort((e1, e2) => {
-                            let diff1 = Math.abs(e1.coordinates.latitude - lat) + Math.abs(e1.coordinates.longitude - lng)
-                            let diff2 = Math.abs(e2.coordinates.latitude - lat) + Math.abs(e2.coordinates.longitude - lng)
+                    this.places.sort((e1, e2) => {
+                        let diff1 = Math.abs(e1.coordinates.latitude - lat) + Math.abs(e1.coordinates.longitude - lng)
+                        let diff2 = Math.abs(e2.coordinates.latitude - lat) + Math.abs(e2.coordinates.longitude - lng)
 
-                            if (diff1 > diff2) {
-                                return 1;
-                            }
+                        if (diff1 > diff2) {
+                            return 1;
+                        }
 
-                            if (diff1 < diff2) {
-                                return -1;
-                            }
+                        if (diff1 < diff2) {
+                            return -1;
+                        }
 
-                            return 0;
-                        })
-                    },
-                    (error) => {
-                        console.log(error);
-                    }
-                )
+                        return 0;
+                    })
+                })
             },
             (error) => {
                 console.log(error);
