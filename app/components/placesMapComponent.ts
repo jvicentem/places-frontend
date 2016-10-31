@@ -4,7 +4,6 @@
 import { Component, Inject } from '@angular/core'
 import { PlacesService } from '../services/PlacesService'
 import { TagsService } from '../services/TagsService'
-import { CurrentLocationService } from '../services/CurrentLocationService'
 
 @Component({
     selector: 'places-map',
@@ -14,7 +13,7 @@ import { CurrentLocationService } from '../services/CurrentLocationService'
              }`
     ],
     templateUrl: './app/components/templates/placesMapComponentTemplate.html',
-    providers: [PlacesService, TagsService, CurrentLocationService]
+    providers: [PlacesService, TagsService]
 })
 export class PlacesMapComponent {
     zoom: number = 14
@@ -29,8 +28,7 @@ export class PlacesMapComponent {
     tags: string[]
 
     constructor(@Inject(PlacesService) private placesService:PlacesService,
-                @Inject(TagsService) private tagsService:TagsService,
-                @Inject(CurrentLocationService) private currentLocationService:CurrentLocationService)
+                @Inject(TagsService) private tagsService:TagsService)
     {
         this.originalPlaces = []
         this.markers = []
@@ -42,21 +40,10 @@ export class PlacesMapComponent {
         this.getMarkers(this.originalPlaces)
         this.getTags()
 
-        this.currentLocationService.getCurrentLocation().subscribe((
-            (data) => {
-                let position = data.json().location
-                this.lat = position.lat
-                this.lng = position.lng
-            },
-            (error) => {
-                /*For some reason I ignore this request is done succesfully but
-                * goes through error block instead of data block*/
-                let position = error.json().location
-                this.lat = position.lat
-                this.lng = position.lng
-            }
-        )
-        )
+        navigator.geolocation.getCurrentPosition((position) => {
+            this.lat = position.coords.latitude
+            this.lng = position.coords.longitude
+        })
     }
 
     private clickedPlace(index: number): void {
