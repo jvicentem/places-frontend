@@ -17,6 +17,7 @@
     "@angular/core": "2.0.0",
     "@angular/forms": "2.0.0",
     "@angular/http": "2.0.0",
+    "@angular/material": "^2.0.0-alpha.9-3",
     "@angular/platform-browser": "2.0.0",
     "@angular/platform-browser-dynamic": "2.0.0",
     "@angular/router": "3.0.0",
@@ -32,6 +33,7 @@
     "zone.js": "^0.6.23"
   },
   "devDependencies": {
+    "@types/core-js": "^0.9.34",
     "concurrently": "^2.2.0",
     "lite-server": "^2.2.2",
     "typescript": "^2.0.2",
