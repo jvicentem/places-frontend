@@ -1,6 +1,14 @@
 <div>
     <ul>
-        <button (click)="showPlaces()">Places list</button>
+        <button md-raised-button (click)="showPlaces()"
+            style="font-family: 'Alegreya Sans', sans-serif, cursive;
+               font-size: 1.1em;
+               font-weight: bold;
+               color: black;
+               background-color: rgba(25, 152, 254, 0.66);"
+        >
+            Places list
+        </button>
         <div *ngIf="places && showList">
             <li *ngFor='let place of places; let i = index'>
                 {{place.name}} - {{getTagsString(i)}}
