@@ -1,12 +1,13 @@
 /**
  * Created by jose on 25/09/16.
  */
-import { NgModule, Type, enableProdMode }      from '@angular/core';
+import { NgModule, Type, enableProdMode } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http'
 import { PlacesListComponent, PlacesMapComponent, PlacesHelpComponent } from './index'
 import { AppComponent } from './app.component'
 import { AgmCoreModule } from 'angular2-google-maps/core'
+import { MaterialModule } from '@angular/material'
 
 enableProdMode()
 
@@ -14,6 +15,7 @@ enableProdMode()
     imports: [
         BrowserModule,
         HttpModule,
+        MaterialModule.forRoot(),
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyAjuKhx_vuFiovS_xuNN0ARd0Fj8koFwMk'
         })
