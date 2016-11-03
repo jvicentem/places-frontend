@@ -12,12 +12,12 @@ import { TagsService } from '../services/TagsService'
                 width: 95%;         
              }`
     ],
-    templateUrl: './app/components/templates/placesMapComponentTemplate.html',
+    templateUrl: './templates/map.component.html',
     providers: [PlacesService, TagsService]
 })
 export class PlacesMapComponent {
     zoom: number = 14
-    
+
     lat: number
     lng: number
 
