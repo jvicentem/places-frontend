@@ -8,7 +8,7 @@ import { TagsService } from '../services/TagsService';
 @Component(
     {
         selector: 'places-list',
-        templateUrl: './app/components/templates/placesListComponentTemplate.html',
+        templateUrl: './templates/list.component.html',
         providers: [PlacesService, TagsService]
     }
 )

@@ -5,7 +5,6 @@ import {Http, Response} from '@angular/http';
 import {Inject} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import "rxjs/add/operator/map";
-import { place } from '../components/placesMapComponent'
 
 export class PlacesService {
     constructor(
@@ -13,10 +12,10 @@ export class PlacesService {
     ) {}
 
     getPlaces():Observable<Response> {
-        return this.http.get('http://places.api.jvm16.xyz:3002/places/');
+        return this.http.get('https://places.api.jvm16.xyz:3002/places/');
     }
 
     getPlaceById(id: string) {
-        return this.http.get('http://places.api.jvm16.xyz:3002/places/' + id);
+        return this.http.get('https://places.api.jvm16.xyz:3002/places/' + id);
     }
 }

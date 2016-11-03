@@ -10,6 +10,6 @@ import { Component } from '@angular/core';
             list-style-type: none;
         }
     `],
-    templateUrl: './app/components/templates/placesHelpComponentTemplate.html',
+    templateUrl: './templates/help.component.html',
 })
 export class PlacesHelpComponent { }
