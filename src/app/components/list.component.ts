@@ -19,7 +19,9 @@ export class PlacesListComponent {
     private showList: boolean;
 
     constructor(@Inject(PlacesService) private placesService:PlacesService,
-                @Inject(TagsService) private tagsService:TagsService) {
+                @Inject(TagsService) private tagsService:TagsService) { }
+
+    ngOnInit() {
         this.fetchPlaces();
         this.tags = this.getTags();
         this.showList = false;

@@ -29,8 +29,9 @@ export class PlacesMapComponent {
     tags: string[];
 
     constructor(@Inject(PlacesService) private placesService:PlacesService,
-                @Inject(TagsService) private tagsService:TagsService)
-    {
+                @Inject(TagsService) private tagsService:TagsService) { }
+
+    ngOnInit() {
         this.originalPlaces = [];
         this.markers = [];
 
