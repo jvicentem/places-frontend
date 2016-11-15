@@ -1,9 +1,10 @@
 /**
  * Created by jose on 28/09/16.
  */
-import { Component, Inject } from '@angular/core'
-import { PlacesService } from '../services/PlacesService'
-import { TagsService } from '../services/TagsService'
+import { Component, Inject } from '@angular/core';
+import { PlacesService } from '../services/PlacesService';
+import { TagsService } from '../services/TagsService';
+import { Place } from '../models/place.model';
 
 @Component({
     selector: 'places-map',
@@ -16,33 +17,33 @@ import { TagsService } from '../services/TagsService'
     providers: [PlacesService, TagsService]
 })
 export class PlacesMapComponent {
-    zoom: number = 14
+    zoom: number = 14;
 
-    lat: number
-    lng: number
+    lat: number;
+    lng: number;
 
-    originalPlaces: place[]
+    originalPlaces: Place[];
 
-    markers: marker[]
+    markers: Marker[];
 
-    tags: string[]
+    tags: string[];
 
     constructor(@Inject(PlacesService) private placesService:PlacesService,
                 @Inject(TagsService) private tagsService:TagsService)
     {
-        this.originalPlaces = []
-        this.markers = []
+        this.originalPlaces = [];
+        this.markers = [];
 
-        this.lat = 40.3208445
-        this.lng = -3.852209700000003
+        this.lat = 40.3208445;
+        this.lng = -3.852209700000003;
 
-        this.getOriginalPlaces()
-        this.getMarkers(this.originalPlaces)
-        this.getTags()
+        this.getOriginalPlaces();
+        this.getMarkers(this.originalPlaces);
+        this.getTags();
 
         navigator.geolocation.getCurrentPosition((position) => {
-            this.lat = position.coords.latitude
-            this.lng = position.coords.longitude
+            this.lat = position.coords.latitude;
+            this.lng = position.coords.longitude;
         })
     }
 
@@ -51,10 +52,10 @@ export class PlacesMapComponent {
             for (let tagId of this.originalPlaces[index].tags) {
                 this.tagsService.getTagById(tagId).subscribe(
                     (data) => {
-                        this.originalPlaces[index].tagsNames.push(data.json().name)
+                        this.originalPlaces[index].tagsNames.push(data.json().name);
                     },
                     (error) => {
-                        console.log(error)
+                        console.log(error);
                     }
                 )
             }
@@ -62,15 +63,15 @@ export class PlacesMapComponent {
     }
 
     private getOriginalPlaces(): void {
-        let places = []
+        let places = [];
 
         this.placesService.getPlaces().subscribe(
             (data) => {
                 places = data.json().places;
 
                 for (let place of places) {
-                    let latitude: number = Number(place.coordinates.latitude)
-                    let longitude: number = Number(place.coordinates.longitude)
+                    let latitude: number = Number(place.coordinates.latitude);
+                    let longitude: number = Number(place.coordinates.longitude);
 
                     let placeAux = {
                         id: place._id,
@@ -83,13 +84,11 @@ export class PlacesMapComponent {
                         tags: place.tags,
                         tagsNames: [],
                         googleMapsUrl: this.generateGoogleMapsLink(latitude, longitude)
-                    }
+                    };
 
-                    this.originalPlaces.push(placeAux)
+                    this.originalPlaces.push(placeAux);
                 }
-                this.originalPlaces
-
-                this.getMarkers(this.originalPlaces)
+                this.getMarkers(this.originalPlaces);
             },
             (error) => {
                 console.log(error);
@@ -97,22 +96,22 @@ export class PlacesMapComponent {
         )
     }
 
-    private getMarkers(placesList: place[]): void {
+    private getMarkers(placesList: Place[]): void {
         for (let place of placesList) {
-            let icon: string = ''
+            let icon: string = '';
 
-            const iconUrlFirstPart = './assets/'
-            const iconUrlSecondPart = '-marker.png'
+            const iconUrlFirstPart = './assets/';
+            const iconUrlSecondPart = '-marker.png';
 
             switch (place.review) {
                 case "good":
-                    icon = 'green'
+                    icon = 'green';
                     break;
                 case "normal":
-                    icon = 'orange'
+                    icon = 'orange';
                     break;
                 default:
-                    icon = 'blue'
+                    icon = 'blue';
             }
 
             let placeMark = {
@@ -121,12 +120,12 @@ export class PlacesMapComponent {
                 draggable: false,
                 iconUrl: iconUrlFirstPart + icon + iconUrlSecondPart,
                 label: ''
-            }
+            };
 
             if (place.lactose)
-                placeMark.label = 'L'
+                placeMark.label = 'L';
 
-            this.markers.push(placeMark)
+            this.markers.push(placeMark);
         }
     }
 
@@ -142,28 +141,15 @@ export class PlacesMapComponent {
     }
 
     private generateGoogleMapsLink(lat: number, long: number): string {
-        return 'http://www.google.com/maps/place/'+ lat + ',' + long
+        return 'http://www.google.com/maps/place/'+ lat + ',' + long;
     }
 
 }
 
-interface marker {
-    lat: number
-    lng: number
-    label?: string
-    draggable?: boolean
+interface Marker {
+    lat: number,
+    lng: number,
+    label?: string,
+    draggable?: boolean,
     iconUrl?: string
-}
-
-export interface place {
-    id: string
-    latitude: number
-    longitude: number
-    name: string
-    lactose: boolean
-    review: string
-    url: string
-    tags: string[]
-    tagsNames?: string[],
-    googleMapsUrl?: string
-}
+};

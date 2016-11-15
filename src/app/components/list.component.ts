@@ -13,20 +13,20 @@ import { TagsService } from '../services/TagsService';
     }
 )
 export class PlacesListComponent {
-    private places: any[]
-    private tags = new Map()
+    private places: any[];
+    private tags = new Map();
 
-    private showList: boolean
+    private showList: boolean;
 
     constructor(@Inject(PlacesService) private placesService:PlacesService,
                 @Inject(TagsService) private tagsService:TagsService) {
-        this.fetchPlaces()
-        this.tags = this.getTags()
-        this.showList = false
+        this.fetchPlaces();
+        this.tags = this.getTags();
+        this.showList = false;
     }
 
     showPlaces(): void {
-        this.showList = (this.showList)? false : true
+        this.showList = (this.showList)? false : true;
     }
 
     fetchPlaces(): void {
@@ -35,12 +35,12 @@ export class PlacesListComponent {
                 this.places = data.json().places;
 
                 navigator.geolocation.getCurrentPosition((position) => {
-                    let lat = position.coords.latitude
-                    let lng = position.coords.longitude
+                    let lat = position.coords.latitude;
+                    let lng = position.coords.longitude;
 
                     this.places.sort((e1, e2) => {
-                        let diff1 = Math.abs(e1.coordinates.latitude - lat) + Math.abs(e1.coordinates.longitude - lng)
-                        let diff2 = Math.abs(e2.coordinates.latitude - lat) + Math.abs(e2.coordinates.longitude - lng)
+                        let diff1 = Math.abs(e1.coordinates.latitude - lat) + Math.abs(e1.coordinates.longitude - lng);
+                        let diff2 = Math.abs(e2.coordinates.latitude - lat) + Math.abs(e2.coordinates.longitude - lng);
 
                         if (diff1 > diff2) {
                             return 1;
@@ -61,32 +61,32 @@ export class PlacesListComponent {
     }
 
     getTags(): Map<{}, {}> {
-        let tags = new Map()
+        let tags = new Map();
 
         this.tagsService.getTags().subscribe(
             (data) => {
-                let tagsJsonList = data.json().tags
+                let tagsJsonList = data.json().tags;
 
                 for (let tag of tagsJsonList) {
-                    tags.set(tag._id, tag.name)
+                    tags.set(tag._id, tag.name);
                 }
             },
             (error) => {
-                console.log(error)
+                console.log(error);
             }
         )
 
-        return tags
+        return tags;
     }
 
     getTagsString(index: number): string {
-        let tagsString: string = ''
+        let tagsString: string = '';
 
         for (let tagId of this.places[index].tags) {
-            tagsString = tagsString + " #" + this.tags.get(tagId) + ","
+            tagsString = tagsString + " #" + this.tags.get(tagId) + ",";
         }
 
-        return tagsString.slice(0, -1)
+        return tagsString.slice(0, -1);
     }
 
 
