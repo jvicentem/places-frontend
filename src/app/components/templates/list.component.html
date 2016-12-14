@@ -11,7 +11,7 @@
         </button>
         <div *ngIf="places && showList">
             <li *ngFor='let place of places; let i = index'>
-                {{place.name}} - {{getTagsString(i)}}
+              <a target="_blank" href="{{place.url}}">{{place.name}}</a> - {{getTagsString(i)}}
             </li>
         </div>
     </ul>
