@@ -111,6 +111,9 @@ export class PlacesMapComponent {
                 case "normal":
                     icon = 'orange';
                     break;
+                case "bad":
+                    icon = 'red';
+                    break;
                 default:
                     icon = 'blue';
             }
