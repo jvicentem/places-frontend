@@ -9,11 +9,11 @@ export class TagsService {
     constructor(@Inject(Http) private http:Http) {}
 
     getTags():Observable<Response> {
-        return this.http.get('https://places.api.jvm16.xyz:3002/tags/')
+        return this.http.get('https://places.api.jvm16.xyz:3001/tags/')
     }
 
     getTagById(id: string):Observable<Response> {
-        return this.http.get('https://places.api.jvm16.xyz:3002/tags/' + id)
+        return this.http.get('https://places.api.jvm16.xyz:3001/tags/' + id)
     }
 }
 
