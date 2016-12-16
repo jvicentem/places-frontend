@@ -9,7 +9,8 @@ import { TagsService } from '../services/TagsService';
     {
         selector: 'places-list',
         templateUrl: './templates/list.component.html',
-        providers: [PlacesService, TagsService]
+        providers: [PlacesService, TagsService],
+        styles: ['a { color: black;}']
     }
 )
 export class PlacesListComponent {
