@@ -10,7 +10,7 @@ import { TagsService } from '../services/TagsService';
         selector: 'places-list',
         templateUrl: './templates/list.component.html',
         providers: [PlacesService, TagsService],
-        styles: ['a { color: black;}']
+        styles: ['a { color: black; }']
     }
 )
 export class PlacesListComponent {
@@ -19,6 +19,8 @@ export class PlacesListComponent {
 
     private showList: boolean;
 
+    private color: string;
+
     constructor(@Inject(PlacesService) private placesService:PlacesService,
                 @Inject(TagsService) private tagsService:TagsService) { }
 
@@ -26,10 +28,17 @@ export class PlacesListComponent {
         this.fetchPlaces();
         this.tags = this.getTags();
         this.showList = false;
+        this.color = this.randomColor();
+    }
+
+    private randomColor(): string {
+        let colors = ['#00868B', '#8968CD', '#DC143C', '#008B00', '	#CD6600', '#515151', '#000000'];
+        return colors[Math.floor(Math.random() * 6)];
     }
 
     showPlaces(): void {
         this.showList = (this.showList)? false : true;
+        this.color = this.randomColor();
     }
 
     fetchPlaces(): void {
