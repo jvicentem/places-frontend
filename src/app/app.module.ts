@@ -9,7 +9,6 @@ import { PlacesListComponent, PlacesMapComponent, PlacesHelpComponent } from './
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { MaterialModule } from '@angular/material';
 
-
 @NgModule({
   declarations: [
     AppComponent,
