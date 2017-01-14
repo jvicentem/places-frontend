@@ -44,7 +44,9 @@ export class PlacesListComponent {
     fetchPlaces(): void {
         this.placesService.getPlaces().subscribe(
             (data) => {
-                this.places = data.json().places;
+                let places = data.json().places;
+
+                this.places = places.filter(o => o.review != 'bad');
 
                 navigator.geolocation.getCurrentPosition((position) => {
                     let lat = position.coords.latitude;
