@@ -126,9 +126,6 @@ export class PlacesMapComponent {
                 label: ''
             };
 
-            if (place.lactose)
-                placeMark.label = 'L';
-
             this.markers.push(placeMark);
         }
     }
